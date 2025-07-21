@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LuxSearch - El buscador para los que conquistan el mundo</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Montserrat:wght@300&display=swap');
+
+    body {
+      margin: 0;
+      background: #0b0b0b;
+      color: #f5f1e9;
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #d4af37;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    p.subtitle {
+      font-size: 1.2rem;
+      color: #c9b37a;
+      margin-bottom: 3rem;
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    form {
+      width: 60%;
+      max-width: 600px;
+      display: flex;
+      border: 2px solid #d4af37;
+      border-radius: 50px;
+      overflow: hidden;
+      background: #1a1a1a;
+      box-shadow: 0 0 30px #d4af37aa;
+    }
+
+    input[type="text"] {
+      flex-grow: 1;
+      padding: 1rem 1.5rem;
+      font-size: 1.5rem;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #f5f1e9;
+      font-weight: 500;
+    }
+
+    input[type="text"]::placeholder {
+      color: #d4af37cc;
+      font-style: italic;
+    }
+
+    button {
+      background: #d4af37;
+      border: none;
+      padding: 0 2rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0b0b0b;
+      letter-spacing: 0.05em;
+      border-radius: 0 50px 50px 0;
+      user-select: none;
+    }
+
+    button:hover {
+      background: #b89526;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 1rem;
+      font-size: 0.9rem;
+      color: #555;
+      user-select: none;
+      font-style: italic;
+    }
+
+    @media (max-width: 700px) {
+      form {
+        width: 90%;
+      }
+      h1 {
+        font-size: 2.5rem;
+      }
+      input[type="text"] {
+        font-size: 1.2rem;
+      }
+      button {
+        font-size: 1.2rem;
+        padding: 0 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>LuxSearch</h1>
+  <p class="subtitle">Porque la búsqueda también puede ser una experiencia exclusiva</p>
+
+  <form id="luxForm" target="_blank" onsubmit="return handleSearch(event)">
+    <input
+      type="text"
+      id="searchInput"
+      name="q"
+      placeholder="Busca tu próximo yate, arte o inversión filantrópica..."
+      autocomplete="off"
+      required
+      minlength="3"
+    />
+    <button type="submit">Buscar</button>
+  </form>
+
+  <footer>Un lujo para los que no se conforman con menos.</footer>
+
+  <script>
+    function handleSearch(e) {
+      e.preventDefault();
+      const input = document.getElementById('searchInput');
+      const query = input.value.trim();
+
+      if (query.length < 3) {
+        alert('Queremos búsquedas con estilo, no letras vacías.');
+        return false;
+      }
+
+      // Añadimos filtros exclusivos de lujo y filantropía
+      // El operador "site:" limita la búsqueda a sitios reconocidos de lujo o filantropía
+      // Puedes agregar o cambiar sitios a tu gusto en la lista
+      const luxurySites = [
+        "forbes.com",
+        "robbreport.com",
+        "philanthropy.com",
+        "luxurylaunches.com",
+        "charitynavigator.org",
+        "netjets.com",
+        "sothebys.com",
+        "christies.com"
+      ];
+
+      // Construimos el parámetro site: con OR entre sitios
+      const siteFilter = luxurySites.map(site => `site:${site}`).join(" OR ");
+
+      // El query final es la búsqueda del usuario + filtro site:
+      const finalQuery = encodeURIComponent(`${query} (${siteFilter})`);
+
+      // URL de búsqueda en Google con filtro
+      const searchURL = `https://www.google.com/search?q=${finalQuery}`;
+
+      // Abrimos en nueva pestaña la búsqueda
+      window.open(searchURL, "_blank");
+      return false;
+    }
+  </script>
+</body>
+</html>
